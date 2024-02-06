@@ -14,17 +14,17 @@ public class UserController {
     private final HttpSession session;
 
 
-    @PostMapping ("/login")
-    public String login (UserRequest.LoginDTO requestDTO){
+    @PostMapping("/login")
+    public String login(UserRequest.LoginDTO requestDTO) {
         // 1. 유효성 검사 - 사용자id가 3자 이하인경우 400번 에러메시지 전달
-        if(requestDTO.getUsername().length() < 3){
+        if (requestDTO.getUsername().length() < 3) {
             return "error/400";
         }
 
         User user = userRepository.findByUsernameAndPassword(requestDTO);
-        if(user == null){ // 조회 안됨 (401)
+        if (user == null) { // 조회 안됨 (401)
             return "error/401";
-        }else{ // 조회 됐음 (인증됨)
+        } else { // 조회 됐음 (인증됨)
             session.setAttribute("sessionUser", user); // 락카에 담음 (StateFul)
         }
 
@@ -32,10 +32,10 @@ public class UserController {
     }
 
     @PostMapping("/join")
-    public String join (UserRequest.JoinDTO requestDTO){
+    public String join(UserRequest.JoinDTO requestDTO) {
 
         // 1. 유효성 검사 - 사용자id가 3자 이하인경우 400번 에러메시지 전달
-        if(requestDTO.getUsername().length() < 3){
+        if (requestDTO.getUsername().length() < 3) {
             return "error/400";
         }
         // 2. Model에게 위임하기 - DB와 상호작용할 객체와 메소드 구현 필요!!
@@ -43,7 +43,6 @@ public class UserController {
 
         return "redirect:/loginForm"; // 요청이 완료되면 loginForm으로 전달
     }
-
 
 
     @GetMapping("/joinForm")
@@ -63,6 +62,7 @@ public class UserController {
 
     @GetMapping("/logout")
     public String logout() {
+        session.invalidate();
         return "redirect:/";
     }
 }
