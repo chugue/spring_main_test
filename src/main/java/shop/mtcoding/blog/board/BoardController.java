@@ -15,11 +15,7 @@ public class BoardController {
     private final BoardRepository boardRepository;
     private final HttpSession session;
 
-    @GetMapping("/logout")
-    public String logout() {
-        session.invalidate();
-        return "redirect:/";
-    }
+
 
     @GetMapping({ "/", "/board" })
     public String index(HttpServletRequest request) {
@@ -31,6 +27,7 @@ public class BoardController {
 
     @GetMapping("/board/saveForm")
     public String saveForm() {
+
         return "board/saveForm";
     }
 
@@ -45,6 +42,4 @@ public class BoardController {
         request.setAttribute("board", responseDTO);
         return "board/detail";
     }
-
-
 }
