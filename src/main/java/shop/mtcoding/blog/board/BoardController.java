@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
 
@@ -42,4 +43,11 @@ public class BoardController {
         request.setAttribute("board", responseDTO);
         return "board/detail";
     }
+
+    @PostMapping("/board/save")
+    public String save (BoardRequest.SaveDTO requestDTO) {
+        System.out.println(requestDTO);
+        return "redirect:/";
+    }
+
 }
