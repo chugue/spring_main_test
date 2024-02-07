@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import shop.mtcoding.blog.user.User;
 
 import java.util.List;
 
@@ -45,8 +46,21 @@ public class BoardController {
     }
 
     @PostMapping("/board/save")
-    public String save (BoardRequest.SaveDTO requestDTO) {
-        System.out.println(requestDTO);
+    public String save (BoardRequest.SaveDTO requestDTO, HttpServletRequest request) {
+        //1. 인증 체크
+        User sessionUser = (User) session.getAttribute("sessionUser");
+        if (sessionUser == null){
+            return "redirect:/loginForm";
+        }
+        //2. 바디 데이터 확인 및 유효성 검사
+        if (requestDTO.getTitle().length() > 30){
+            request.setAttribute("status", 400);
+            request.setAttribute("msg", "title의 길이가 30자를 초과해서는 안되요");
+            return "error/40x"; // 잘못된 요청
+        }
+        //3. 모델 위임
+        //insert into board_tb(title, content, user_id, created_at) values (?, ?, ?, now());
+        boardRepository.save(requestDTO, sessionUser.getId());
         return "redirect:/";
     }
 
