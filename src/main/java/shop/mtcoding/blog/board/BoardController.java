@@ -35,9 +35,7 @@ public class BoardController {
             pageOwner = postOwnerId == sessionUserId;
         }
         // mustache에서 아래 키워드와 매핑된 곳에 뿌려줌.
-        request.setAttribute("board", responseDTO);
         request.setAttribute("pageOwner", pageOwner);
-
         // request가방에 담아서 화면에 렌더링할 수 있게해준다.
         // 아래 코드 예시로는 mustache에서 {{board}} 같이 문법을 쓰면 정보를 가져다 쓸 수 있다.
         request.setAttribute("board", responseDTO);
