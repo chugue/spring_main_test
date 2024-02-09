@@ -13,3 +13,4 @@ public class BoardResponse {
         private String username;
     }
 }
+
