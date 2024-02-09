@@ -14,6 +14,13 @@ import java.util.List;
 public class BoardRepository {
     private final EntityManager em;
 
+    @Transactional
+    public void delete (int id){
+        Query query = em.createNativeQuery("delete from board_tb where id = ?");
+        query.setParameter(1, id);
+        query.executeUpdate();
+    }
+
     public List<Board> findAll() {
         Query query = em.createNativeQuery("select * from board_tb order by id desc", Board.class);
         return query.getResultList();
@@ -61,4 +68,6 @@ public class BoardRepository {
 
         query.executeUpdate();
     }
+
+
 }

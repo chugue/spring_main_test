@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import shop.mtcoding.blog.user.User;
 
 import java.util.List;
@@ -63,6 +64,26 @@ public class BoardController {
 
         request.setAttribute("boardList", boardList);
         return "index";
+    }
+
+
+    @PostMapping("/board/{id}/delete")
+    public String delete(@PathVariable int id, HttpServletRequest request){
+        //인증 확인
+        User sessionUser = (User) session.getAttribute("sessionUser");
+        if (sessionUser == null){
+            return "redirect:/loginForm";
+        }
+        //권한 확인
+        BoardResponse.DetailDTO board = boardRepository.findById(id);
+        if (board.getUserId() != sessionUser.getId()){
+            request.setAttribute("msg", "권한이 없습니다.");
+            request.setAttribute("status", 403);
+            return "error/40x";
+        }
+        //핵심 로직
+        boardRepository.delete(id);
+        return "redirect:/";
     }
 
 
