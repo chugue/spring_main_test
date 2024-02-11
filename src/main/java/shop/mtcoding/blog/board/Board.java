@@ -15,7 +15,6 @@ public class Board { // User 1 -> Board N
     @Column(length = 30)
     private String title;
     private String content;
-
     private int userId; // 테이블에 만들어 질때 user_id
 
     private LocalDateTime createdAt;
