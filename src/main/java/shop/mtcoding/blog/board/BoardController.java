@@ -78,6 +78,10 @@ public class BoardController {
     public String index(HttpServletRequest request) {
         List<Board> boardList = boardRepository.findAll();
 
+        // 테스트용 코드
+        for (Board a : boardList){
+            System.out.println(a);
+        }
         request.setAttribute("boardList", boardList);
         return "index";
     }
