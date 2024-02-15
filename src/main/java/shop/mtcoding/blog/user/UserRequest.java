@@ -4,13 +4,13 @@ import lombok.Data;
 public class UserRequest {
 
     @Data
-    public class LoginDTO {
+    public static class LoginDTO {
         private String username;
         private String password;
     }
 
     @Data
-    public class JoinDTO {
+    public static class JoinDTO {
         private String username;
         private String password;
         private String email;
