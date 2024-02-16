@@ -18,5 +18,7 @@ public class BoardResponse {
         private int userId;
         private String username;
     }
+
+
 }
 
