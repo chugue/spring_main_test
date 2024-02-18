@@ -4,7 +4,6 @@ package shop.mtcoding.blog.board;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import shop.mtcoding.blog.user.User;
@@ -27,6 +26,8 @@ public class BoardRepository {
         Query query = em.createNativeQuery("select * from board_tb order by id desc", Board.class);
         return query.getResultList();
     }
+
+
 
     public BoardResponse.DetailDTO findById(int idx) {
         Query query = em.createNativeQuery("select b.id, b.title, b.content, b.user_id, u.username from board_tb b inner join user_tb u on b.user_id = u.id where b.id = ?");
