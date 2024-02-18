@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import shop.mtcoding.blog.user.User;
 
 import java.util.List;
 
@@ -58,7 +59,13 @@ public class BoardRepository {
 
     @Transactional
     public void save(BoardRequest.SaveDTO requestDTO, int userId) {
-        Query query = em.createNativeQuery("insert into board_tb(title, content, user_id, created_at) values (?,?,?, now())");
+        String q = """
+                insert into
+                    board_tb (title, content, user_id, created_at) 
+                values
+                    (?,?,?, now());
+                """;
+        Query query = em.createNativeQuery(q);
         query.setParameter(1, requestDTO.getTitle());
         query.setParameter(2, requestDTO.getContent());
         query.setParameter(3, userId);
@@ -76,4 +83,6 @@ public class BoardRepository {
         query.executeUpdate();
 
     }
+
+
 }

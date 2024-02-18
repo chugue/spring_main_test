@@ -18,6 +18,27 @@ public class BoardController {
     private final BoardRepository boardRepository;
     private final HttpSession session;
 
+
+    @PostMapping("/board/save")
+    public String save (BoardRequest.SaveDTO requestDTO, HttpServletRequest request){
+        User sessionUser = (User) session.getAttribute("sessionUser");
+        if (sessionUser == null){
+            return "redirect:/loginForm";
+        }
+
+        if (requestDTO.getTitle().length() > 20){
+            request.setAttribute("msg", "잘못된 요청입니다.");
+            request.setAttribute("status", 400);
+            return "error/40x";
+        }
+        boardRepository.save(requestDTO, sessionUser.getId());
+        return "redirect:/";
+    }
+
+
+
+
+
     @PostMapping("board/{id}/update")
     public String update (@PathVariable int id, BoardResponse.UpdateDTO requestDTO, HttpServletRequest request){
         //1. 인증 체크
@@ -74,15 +95,13 @@ public class BoardController {
     }
 
 
-    @GetMapping({ "/", "/board" })
+    @GetMapping("/")
     public String index(HttpServletRequest request) {
         List<Board> boardList = boardRepository.findAll();
 
-        // 테스트용 코드
-        for (Board a : boardList){
-            System.out.println(a);
-        }
+
         request.setAttribute("boardList", boardList);
+
         return "index";
     }
 
@@ -121,6 +140,7 @@ public class BoardController {
         request.setAttribute("board", detailDTO);
         return "board/updateForm";
     }
+
 
 
 }
