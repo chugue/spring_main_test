@@ -76,8 +76,10 @@ public class BoardRepository {
 
     @Transactional
     public void update(int id, BoardResponse.UpdateDTO requestDTO) {
-        Query query = em.createNativeQuery("update board_tb set title=? , content=? where id=?");
-        System.out.println(requestDTO);
+        String q = """
+                update board_tb set title=? , content=? where id=?
+                """;
+        Query query = em.createNativeQuery(q);
         query.setParameter(1, requestDTO.getTitle());
         query.setParameter(2, requestDTO.getContent());
         query.setParameter(3, id);
